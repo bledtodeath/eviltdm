@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEA OF THIEVES TDM</title>
+    <style>
+        :root {
+            --blood: #8b0000;
+            --void: #0a000a;
+            --bone: #f5f5dc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--void);
+            color: var(--bone);
+            font-family: 'Courier New', monospace;
+            background-image:
+                radial-gradient(circle at 15% 85%, rgba(139, 0, 0, 0.2) 0%, transparent 30%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230a000a"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%238b0000" stroke-width="0.5" opacity="0.3"/></svg>');
+            background-attachment: fixed;
+            overflow-x: hidden;
+            text-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
+        }
+
+        .terminal {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            border: 1px solid var(--blood);
+            background-color: rgba(10, 0, 10, 0.8);
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .terminal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--blood), var(--blood), var(--blood));
+        }
+
+        .terminal::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--blood), var(--blood), var(--blood));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px dashed var(--blood);
+            padding-bottom: 1rem;
+        }
+
+        .glitch-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--blood);
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            position: relative;
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(2deg); }
+            40% { transform: skew(-1deg); }
+            60% { transform: skew(1deg); }
+            80% { transform: skew(-2deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        @keyframes bloodDrip {
+            0% {
+                top: -20px;
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+
+        .blood-drip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .blood-drop {
+            position: absolute;
+            top: -20px;
+            width: 2px;
+            height: 15px;
+            background: linear-gradient(to bottom, #8b0000, #600000);
+            opacity: 0.8;
+            filter: drop-shadow(0 0 2px rgba(139, 0, 0, 0.8));
+            animation: bloodDrip linear infinite;
+        }
+
+        .blood-drop::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -2px;
+            width: 6px;
+            height: 8px;
+            background: #8b0000;
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--blood);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .discord-card {
+            border: 1px solid var(--blood);
+            background-color: rgba(20, 0, 20, 0.7);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discord-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 40%, rgba(139, 0, 0, 0.1) 41%, rgba(139, 0, 0, 0.1) 42%, transparent 43%);
+            transform: rotate(45deg);
+            animation: pulse 8s linear infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: rotate(45deg) translate(0, 0); }
+            100% { transform: rotate(425deg) translate(0, 0); }
+        }
+
+        .discord-card h2 {
+            color: var(--blood);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            border-bottom: 1px dashed var(--blood);
+            padding-bottom: 0.5rem;
+        }
+
+        .discord-card p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .discord-button {
+            display: inline-block;
+            background-color: var(--blood);
+            color: var(--bone);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px var(--blood);
+        }
+
+        .discord-button:hover {
+            background-color: #a00000;
+            box-shadow: 0 0 20px var(--blood);
+            transform: translateY(-2px);
+        }
+
+        .discord-button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+
+        .discord-button:hover::after {
+            transform: translateX(100%);
+        }
+
+        .settings-container {
+            border: 1px solid var(--blood);
+            background-color: rgba(20, 0, 20, 0.7);
+            padding: 1.5rem;
+        }
+
+        .settings-container h2 {
+            color: var(--blood);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            border-bottom: 1px dashed var(--blood);
+            padding-bottom: 0.5rem;
+        }
+
+        .settings-container > p {
+            margin-bottom: 1rem;
+        }
+
+        .settings-content h3 {
+            margin-top: 1.5rem;
+            color: var(--blood);
+            font-size: 1.25rem;
+        }
+
+        .settings-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--blood);
+        }
+
+        .audio-toggle {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid var(--blood);
+            color: var(--blood);
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.05rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 0.75rem;
+            backdrop-filter: blur(6px);
+            transition: background-color 0.2s ease;
+        }
+
+        .audio-toggle:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .settings-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: var(--bone);
+            background-color: rgba(139, 0, 0, 0.3);
+            border: 1px solid var(--blood);
+            border-bottom: none;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .settings-tab.active {
+            background-color: var(--blood);
+            color: var(--bone);
+        }
+
+        .settings-tab:hover:not(.active) {
+            background-color: rgba(139, 0, 0, 0.5);
+        }
+
+        .settings-content {
+            display: none;
+        }
+
+        .settings-content.active {
+            display: block;
+        }
+
+        .settings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .settings-table th {
+            background-color: rgba(139, 0, 0, 0.5);
+            color: var(--bone);
+            padding: 0.5rem;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .settings-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+        }
+
+        .settings-table tr:hover {
+            background-color: rgba(139, 0, 0, 0.2);
+        }
+
+        .code-block {
+            background-color: rgba(10, 0, 10, 0.8);
+            border-left: 3px solid var(--blood);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            border-top: 1px dashed var(--blood);
+            font-size: 0.8rem;
+            color: rgba(245, 245, 220, 0.7);
+        }
+
+        .skull-icon {
+            font-size: 2rem;
+            color: var(--blood);
+            margin: 0 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .glitch-title {
+                font-size: 2rem;
+            }
+
+            .terminal {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blood-drip" id="bloodDripContainer"></div>
+    <div class="terminal">
+        <div class="header">
+            <h1 class="glitch-title">SEA OF THIEVES TDM</h1>
+            <p class="subtitle">ABANDON HOPE, ALL WHO ENTER HERE</p>
+        </div>
+
+        <div class="content">
+            <div class="discord-card">
+                <h2>JOIN THE SLAUGHTER</h2>
+                <p>The Sea of Thieves TDM community awaits your arrival. Here, we don't play for fun - we play to dominate, to annihilate, to leave nothing but digital corpses in our wake.</p>
+                <p>Our Discord is a den of elite warriors, where only the strongest survive. Will you answer the call?</p>
+                <p><strong>Requirements:</strong></p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li>You must give up your soul</li>
+                    <li>Sacrifice your humanity</li>
+                    <li>No mercy, no remorse</li>
+                    <li>Willingness to be verbally eviscerated for mistakes</li>
+                </ul>
+                <a href="https://discord.gg/vPuBvbYgsD" class="discord-button" onclick="alert('There is no going back now...')">💀 ENTER HELL 💀</a>
+            </div>
+
+            <div class="settings-container">
+                <h2>🔧 EVIL CONFIGURATION 🔧</h2>
+                <p>These are the cursed settings that fuel my reign of terror. Use them wisely - or don't, and become another statistic in my kill feed.</p>
+
+                <div class="settings-tabs">
+                    <div class="settings-tab active" onclick="openTab(event, 'video')">VIDEO</div>
+                    <div class="settings-tab" onclick="openTab(event, 'controls')">CONTROLS</div>
+                    <div class="settings-tab" onclick="openTab(event, 'advanced')">ADVANCED</div>
+                </div>
+
+                <div id="video" class="settings-content active">
+                    <table class="settings-table">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Resolution</td>
+                            <td>1080p (Native)</td>
+                        </tr>
+                        <tr>
+                            <td>Display Mode</td>
+                            <td>Fullscreen (Exclusive)</td>
+                        </tr>
+                        <tr>
+                            <td>Refresh Rate</td>
+                            <td>360Hz</td>
+                        </tr>
+                        <tr>
+                            <td>V-Sync</td>
+                            <td>Off</td>
+                        </tr>
+                        <tr>
+                            <td>Graphics Quality</td>
+                            <td>All Cursed</td>
+                        </tr>
+                        <tr>
+                            <td>Brightness</td>
+                            <td>60</td>
+                        </tr>
+                        <tr>
+                            <td>Color Contrast</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>Resolution Scaling</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>DirectX Version</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>Auto Skip Intro</td>
+                            <td>On</td>
+                        </tr>
+                        <tr>
+                            <td>FPS Counter</td>
+                            <td>Off</td>
+                        </tr>
+                        <tr>
+                            <td>Ping Counter</td>
+                            <td>Off</td>
+                        </tr>
+                        <tr>
+                            <td>FOV</td>
+                            <td>110 (See Everything)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="controls" class="settings-content">
+                    <table class="settings-table">
+                        <tr>
+                            <th>Setting</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Mouse Sensitivity</td>
+                            <td>1.2</td>
+                        </tr>
+                         <tr>
+                            <td>DPI</td>
+                            <td>400</td>
+                        </tr>
+                         <tr>
+                            <td>Polling Rate</td>
+                            <td>2000 Hz</td>
+                        </tr>
+                        <tr>
+                            <td>ADS Sensitivity</td>
+                            <td>1:1 sens with ini file</td>
+                        </tr>
+                        <tr>
+                            <td>Food</td>
+                            <td>F</td>
+                        </tr>
+                        <tr>
+                            <td>Interact</td>
+                            <td>E</td>
+                        </tr>
+                        <tr>
+                            <td>Swap Weapons</td>
+                            <td>Thumb Mouse Button</td>
+                        </tr>
+                        <tr>
+                            <td>Reload Cancel</td>
+                            <td>2x Thumb Mouse Button</td>
+                        </tr>
+                    </table>
+
+                    <h3>PERIPHERALS</h3>
+                    <table class="settings-table">
+                        <tr>
+                            <th>Device</th>
+                            <th>Model</th>
+                        </tr>
+                        <tr>
+                            <td>Mouse</td>
+                            <td>Razer Viper V3 PRO</td>
+                        </tr>
+                        <tr>
+                            <td>Mousepad</td>
+                            <td>Superglide XL 420/490</td>
+                        </tr>
+                        <tr>
+                            <td>Keyboard</td>
+                            <td>Keychron Q1 HE</td>
+                        </tr>
+                        <tr>
+                            <td>Monitor</td>
+                            <td>Samsung Odyssey G60SD OLED</td>
+                        </tr>
+                        <tr>
+                            <td>Headset</td>
+                            <td>SONY WH-1000XM6</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="advanced" class="settings-content">
+                    <h3>LAUNCH OPTIONS</h3>
+                    <div class="code-block">
+                        NONE
+                    </div>
+
+                    <h3>CONSOLE COMMANDS</h3>
+                    <div class="code-block">
+
+Engine.ini:<br>
+[/Script/Engine.InputSettings]<br>
+bEnableMouseSmoothing=False<br>
+<br>
+Game.ini:<br>
+[/Script/Athena.AthenaUserSettingsDefaults]<br>
++MaxFPSOptions=0<br>
++MaxFPSOptions=15<br>
++MaxFPSOptions=20<br>
++MaxFPSOptions=30<br>
++MaxFPSOptions=60<br>
++MaxFPSOptions=72<br>
++MaxFPSOptions=90<br>
++MaxFPSOptions=100<br>
++MaxFPSOptions=120<br>
++MaxFPSOptions=144<br>
+AimSensitivitySettings=(Entries=((SettingCategory=Blunderbuss,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000)),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000))),(SettingCategory=Flintlock,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000)),(SettingCategory=EyeOfReach,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000)),(SettingCategory=TridentOfDarkTides,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000)),(SettingCategory=Spyglass,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000)),(SettingCategory=DoubleBarrelFlintlock,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000)),(SettingCategory=ThrowingKnife,SettingParams_Mouse=(Range=(Min=0.100000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000),Default=1.000000)),(SettingCategory=Blowpipe,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000)),(SettingCategory=PortableHarpoon,SettingParams_Mouse=(Range=(Min=0.100000,Max=1.000000),Default=1.000000),SettingParams_Controller=(Range=(Min=0.100000,Max=1.000000),Default=1.000000))))<br>
+
+                    </div>
+        </div>
+
+        <div class="footer">
+            <p>💀 SEA OF THIEVES TDM - WHERE THE WEAK GO TO DIE 💀</p>
+            <p>All rights reserved. No mercy given. No survivors.</p>
+            <p>Made By z2</p>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("settings-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("settings-tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Auto-type effect for subtitle
+        document.addEventListener('DOMContentLoaded', function() {
+            const subtitle = document.querySelector('.subtitle');
+            const text = subtitle.textContent;
+            subtitle.textContent = '';
+            let i = 0;
+            const typing = setInterval(() => {
+                if (i < text.length) {
+                    subtitle.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typing);
+                }
+            }, 50);
+
+            // Auto-play audio
+            const audio = document.getElementById('bgAudio');
+            const audioToggle = document.getElementById('audioToggle');
+            if (audio) {
+                audio.muted = true;
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Autoplay prevented. Audio muted on load.');
+                    });
+                }
+            }
+
+            if (audioToggle && audio) {
+                const updateButton = () => {
+                    audioToggle.textContent = audio.muted ? 'UNMUTE' : 'MUTE';
+                };
+
+                audioToggle.addEventListener('click', () => {
+                    if (!audio) return;
+                    audio.muted = !audio.muted;
+                    if (!audio.muted && audio.paused) {
+                        audio.play().catch(() => {});
+                    }
+                    updateButton();
+                });
+
+                updateButton();
+            }
+
+            // Generate blood drips
+            const bloodContainer = document.getElementById('bloodDripContainer');
+            function createBloodDrop() {
+                const drop = document.createElement('div');
+                drop.className = 'blood-drop';
+                const randomLeft = Math.random() * 100;
+                const randomDuration = 3 + Math.random() * 5; // 3-8 seconds
+                drop.style.left = randomLeft + '%';
+                drop.style.animationDuration = randomDuration + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                bloodContainer.appendChild(drop);
+                
+                // Remove drop after animation completes
+                setTimeout(() => {
+                    drop.remove();
+                }, (randomDuration + 2) * 1000);
+            }
+
+            // Create blood drips periodically
+            setInterval(createBloodDrop, 800);
+            
+            // Create initial drips
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createBloodDrop, i * 200);
+            }
+        });
+    </script>
+
+    <!-- Background Audio with Autoplay -->
+    <audio id="bgAudio" autoplay loop muted>
+        <source src="audio/Cultist - No, Im Not a Human OST.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button class="audio-toggle" id="audioToggle">UNMUTE</button>
+</body>
+</html>
